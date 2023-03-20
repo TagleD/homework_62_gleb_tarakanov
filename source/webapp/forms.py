@@ -102,7 +102,7 @@ class SimpleSearchForm(forms.Form):
 
 class ProjectAddUserForm(forms.Form):
     # Прокидываем пользователей через запрос в БД
-    user_id = forms.ModelChoiceField(
+    user = forms.ModelChoiceField(
         queryset=User.objects.all(),
         label='Выберите пользователей'
     )

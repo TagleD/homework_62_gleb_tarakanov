@@ -29,9 +29,6 @@
             <div class="col-12">
                 <p class="project-description">{{ project.description }}</p>
             </div>
-            <div class="col-12">
-                <a href="{% url 'project_add_user' project.pk %}">Добавить</a>
-            </div>
         </div>
         <div class="row">
             {% for task in tasks %}
@@ -50,19 +47,42 @@
                     </div>
                     <div class="row">
                         <div class="col-4">
-                            <p><a class="btn btn-primary more-button" href="{% url 'detail_view' task.pk %}">Подробнее</a></p>
+                            <p><a class="btn btn-primary more-button"
+                                  href="{% url 'detail_view' task.pk %}">Подробнее</a></p>
                         </div>
                         {% if user.is_authenticated %}
                             <div class="col-4">
                                 <a href="{% url 'task_delete' task.pk %}" class='btn btn-danger'>Удалить</a>
                             </div>
                             <div class="col-3">
-                                <a href="{% url 'task_update' task.pk %}" class='btn btn-success edit-button'>Изменить</a>
+                                <a href="{% url 'task_update' task.pk %}"
+                                   class='btn btn-success edit-button'>Изменить</a>
                             </div>
                         {% endif %}
                     </div>
                 </div>
             {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-4 project-users">
+                <h3>Пользователи проекта</h3>
+                <ul class="list-group">
+                    {% for user in project.user.all %}
+                        <li class="list-group-item bg-light text-dark">{{ user.username }}</li>
+                        {% empty %}
+                        <li class="list-group-item bg-light text-dark">Нет пользователей</li>
+                    {% endfor %}
+                </ul>
+                <div class="row project-users-btns">
+                    <div class="col-4">
+                        <a href="{% url 'project_add_user' project.pk %}" class='btn btn-success'>Добавить</a>
+                    </div>
+                    <div class="col-3">
+                        <form action="#" method="post"></form>
+                        <button type="submit" class='btn btn-danger project-user-delete-btn'>Удалить</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

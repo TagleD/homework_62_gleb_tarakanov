@@ -2,7 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.views.generic import ListView, CreateView, UpdateView, FormView
+from django.views import View
+from django.views.generic import ListView, CreateView, UpdateView, FormView, DeleteView
 from webapp.forms import ProjectForm, ProjectTaskForm, ProjectAddUserForm
 from webapp.models import Project, Task
 
@@ -63,7 +64,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
         return reverse('project_detail', kwargs={'pk': self.object.pk})
 
 
-class ProjectAddUser(FormView):
+class ProjectAddUserView(FormView):
     template_name = 'project/project_add_user.html'
     form_class = ProjectAddUserForm
     model = Project
@@ -73,7 +74,7 @@ class ProjectAddUser(FormView):
 
     def form_valid(self, form):
         project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
-        user = get_object_or_404(User, pk=self.kwargs.get('pk'))
+        user = get_object_or_404(User, pk=form.cleaned_data.get('user').pk)
         project.user.add(user)
         return super().form_valid(form)
 
@@ -82,3 +83,6 @@ class ProjectAddUser(FormView):
         project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
         context['project'] = project
         return context
+
+
+

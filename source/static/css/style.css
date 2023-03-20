@@ -170,3 +170,19 @@ button {
     padding-left: 10px;
 }
 
+.project-users {
+    margin-left: 30px;
+    margin-bottom: 40px;
+}
+
+.project-user-delete-btn {
+    margin-left: -5px;
+    margin-top: -16px;
+}
+
+
+.project-users-btns {
+    margin-top: 14px;
+}
+
+
