@@ -60,6 +60,9 @@
                             <li class="nav-item">
                                 <a class="nav-link active white" aria-current="page" href="{% url 'login' %}">Войти</a>
                             </li>
+                            <li>
+                                <a href="{% url 'register' %}" class="nav-link active white" aria-current="page">Зарегистироваться</a>
+                            </li>
                         {% endif %}
                     </ul>
                     {% block search %}{% endblock %}
