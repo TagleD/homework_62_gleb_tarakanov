@@ -29,6 +29,9 @@
             <div class="col-12">
                 <p class="project-description">{{ project.description }}</p>
             </div>
+            <div class="col-12">
+                <a href="{% url 'project_add_user' project.pk %}">Добавить</a>
+            </div>
         </div>
         <div class="row">
             {% for task in tasks %}

@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import BaseValidator, MinLengthValidator
 from django.forms import Textarea
@@ -97,3 +98,11 @@ class ProjectTaskForm(forms.ModelForm):
 
 class SimpleSearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False, label='Найти')
+
+
+class ProjectAddUserForm(forms.Form):
+    # Прокидываем пользователей через запрос в БД
+    user_id = forms.ModelChoiceField(
+        queryset=User.objects.all(),
+        label='Выберите пользователей'
+    )
