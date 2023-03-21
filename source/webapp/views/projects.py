@@ -83,6 +83,12 @@ class ProjectAddUserView(FormView):
         context['project'] = project
         return context
 
+    def get_form(self, form_class=None):
+        if form_class is None:
+            form_class = self.get_form_class()
+        project_id = self.kwargs.get('pk')
+        return form_class(project_id, **self.get_form_kwargs())
+
 
 
 class ProjectDeleteUserView(FormView):

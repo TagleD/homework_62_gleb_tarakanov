@@ -176,11 +176,18 @@ button {
 }
 
 .project-user-delete-btn {
-    margin-left: -5px;
+    margin-left: -20px;
 }
 
 .project-users-btns {
     margin-top: 14px;
 }
 
+.users-list {
+    max-width: 300px;
+}
+
+.button-back {
+    float: right;
+}
 

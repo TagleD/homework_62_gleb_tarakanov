@@ -100,12 +100,23 @@ class SimpleSearchForm(forms.Form):
     search = forms.CharField(max_length=100, required=False, label='Найти')
 
 
-class ProjectAddUserForm(forms.Form):
-    # Прокидываем пользователей через запрос в БД
+class ProjectAddUserForm(forms.ModelForm):
+    def __init__(self, project_id, *args, **kwargs):
+        super().__init__( *args, **kwargs)
+        self.project = Project.objects.get(pk=project_id)
+        user_pk_list = []
+        for user in self.project.user.all():
+            user_pk_list.append(user.pk)
+        self.fields['user'].queryset = User.objects.all().exclude(pk__in=user_pk_list)
+
     user = forms.ModelChoiceField(
-        queryset=User.objects.all(),
-        label='Выберите пользователей'
+        queryset=User.objects.none(),
+        label='Выберите пользователя из списка доступных'
     )
+
+    class Meta:
+        model = Project
+        fields = []
 
 
 class ProjectDeleteUserForm(forms.ModelForm):
@@ -116,7 +127,8 @@ class ProjectDeleteUserForm(forms.ModelForm):
 
 
     user = forms.ModelChoiceField(
-        queryset=Project.objects.none()
+        queryset=Project.objects.none(),
+        label='Выберите пользователя из списка доступных'
     )
 
     class Meta:
