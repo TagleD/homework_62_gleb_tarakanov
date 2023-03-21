@@ -8,3 +8,8 @@ class Type(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+
+    class Meta:
+        verbose_name = 'Тип задачи'
+        verbose_name_plural = 'Тип задачи'

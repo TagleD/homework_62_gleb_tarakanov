@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -32,19 +32,29 @@ class ProjectDetailView(ListView):
         return context
 
 
-class ProjectCreateView(LoginRequiredMixin, CreateView):
+class ProjectCreateView(UserPassesTestMixin, CreateView):
     template_name = 'project/project_create.html'
     model = Project
     form_class = ProjectForm
+    permission_denied_message = 'У вас нет прав доступа'
+
+    def test_func(self):
+        return self.request.user.has_perm('webapp.change_task')
 
     def get_success_url(self):
         return reverse('project_detail', kwargs={'pk': self.object.pk})
 
 
-class ProjectTaskCreateView(LoginRequiredMixin, CreateView):
+class ProjectTaskCreateView(UserPassesTestMixin, CreateView):
     model = Task
     template_name = 'project/project_task_create.html'
     form_class = ProjectTaskForm
+    permission_denied_message = 'У вас нет прав доступа'
+
+    def test_func(self):
+        project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
+        return self.request.user.has_perm('webapp.change_task') and \
+            Project.objects.filter(pk=project.pk, user=self.request.user).exists()
 
     def form_valid(self, form):
         project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
@@ -54,13 +64,18 @@ class ProjectTaskCreateView(LoginRequiredMixin, CreateView):
         return redirect('project_detail', pk=project.pk)
 
 
-class ProjectUpdateView(LoginRequiredMixin, UpdateView):
+class ProjectUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'project/project_update.html'
     form_class = ProjectForm
     model = Project
+    permission_denied_message = 'У вас нет прав доступа'
+
+    def test_func(self):
+        return self.request.user.has_perm('webapp.change_task')
 
     def get_success_url(self):
         return reverse('project_detail', kwargs={'pk': self.object.pk})
+
 
 
 class ProjectAddUserView(FormView):
@@ -95,6 +110,7 @@ class ProjectDeleteUserView(FormView):
     template_name = 'project/project_delete_user.html'
     form_class = ProjectDeleteUserForm
     model = Project
+
 
     def get_success_url(self):
         return reverse('project_detail', kwargs={'pk': self.kwargs.get('pk')})

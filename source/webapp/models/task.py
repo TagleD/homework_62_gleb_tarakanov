@@ -58,3 +58,7 @@ class Task(models.Model):
 
     def __str__(self):
         return f'{self.title} - {self.description}'
+
+    class Meta:
+        verbose_name = 'Задача'
+        verbose_name_plural = 'Задача'

@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.http import Http404
 from django.shortcuts import get_object_or_404
@@ -68,6 +68,7 @@ class TaskAddView(LoginRequiredMixin, CreateView):
     template_name = 'task/add_task.html'
     model = Task
     form_class = TaskForm
+
 
     def get_success_url(self):
         return reverse('detail_view', kwargs={'pk': self.object.pk})

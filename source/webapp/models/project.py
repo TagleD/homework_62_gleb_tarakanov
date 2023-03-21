@@ -31,3 +31,7 @@ class Project(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+    class Meta:
+        verbose_name = 'Проект'
+        verbose_name_plural = 'Проект'
