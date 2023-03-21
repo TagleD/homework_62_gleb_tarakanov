@@ -74,16 +74,28 @@ class TaskAddView(LoginRequiredMixin, CreateView):
         return reverse('detail_view', kwargs={'pk': self.object.pk})
 
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
+class TaskUpdateView(UserPassesTestMixin, UpdateView):
     template_name = 'task/update_task.html'
     form_class = TaskForm
     model = Task
+    permission_denied_message = 'У вас нет прав доступа'
+
+    def test_func(self):
+        task = get_object_or_404(Task, pk=self.kwargs.get('pk'))
+        return self.request.user.has_perm('webapp.change_task') and \
+            task.project.user.filter(pk=self.request.user.pk).exists()
 
     def get_success_url(self):
         return reverse('detail_view', kwargs={'pk': self.object.pk})
 
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(UserPassesTestMixin, DeleteView):
     template_name = 'task/confirm_delete.html'
     model = Task
     success_url = reverse_lazy('tasks_view')
+    permission_denied_message = 'У вас нет прав доступа'
+
+    def test_func(self):
+        task = get_object_or_404(Task, pk=self.kwargs.get('pk'))
+        return self.request.user.has_perm('webapp.change_task') and \
+            task.project.user.filter(pk=self.request.user.pk).exists()
