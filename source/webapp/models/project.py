@@ -35,3 +35,7 @@ class Project(models.Model):
     class Meta:
         verbose_name = 'Проект'
         verbose_name_plural = 'Проект'
+        permissions = [
+            ('add_user_project', 'Добавить пользователя в проект'),
+            ('delete_user_project', 'Удалить пользователя из проекта')
+        ]

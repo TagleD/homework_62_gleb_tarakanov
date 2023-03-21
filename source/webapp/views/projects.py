@@ -78,10 +78,16 @@ class ProjectUpdateView(UserPassesTestMixin, UpdateView):
 
 
 
-class ProjectAddUserView(FormView):
+class ProjectAddUserView(UserPassesTestMixin, FormView):
     template_name = 'project/project_add_user.html'
     form_class = ProjectAddUserForm
     model = Project
+    permission_denied_message = 'У вас нет прав доступа'
+
+    def test_func(self):
+        project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
+        return self.request.user.has_perm('webapp.add_user_project') and \
+            Project.objects.filter(pk=project.pk, user=self.request.user).exists()
 
     def get_success_url(self):
         return reverse('project_detail', kwargs={'pk': self.kwargs.get('pk')})
@@ -106,10 +112,16 @@ class ProjectAddUserView(FormView):
 
 
 
-class ProjectDeleteUserView(FormView):
+class ProjectDeleteUserView(UserPassesTestMixin, FormView):
     template_name = 'project/project_delete_user.html'
     form_class = ProjectDeleteUserForm
     model = Project
+    permission_denied_message = 'У вас нет прав доступа'
+
+    def test_func(self):
+        project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
+        return self.request.user.has_perm('webapp.delete_user_project') and \
+            Project.objects.filter(pk=project.pk, user=self.request.user).exists()
 
 
     def get_success_url(self):
