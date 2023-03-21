@@ -39,7 +39,7 @@ class ProjectCreateView(UserPassesTestMixin, CreateView):
     permission_denied_message = 'У вас нет прав доступа'
 
     def test_func(self):
-        return self.request.user.has_perm('webapp.change_task')
+        return self.request.user.has_perm('webapp.add_project')
 
     def get_success_url(self):
         return reverse('project_detail', kwargs={'pk': self.object.pk})
@@ -53,7 +53,7 @@ class ProjectTaskCreateView(UserPassesTestMixin, CreateView):
 
     def test_func(self):
         project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
-        return self.request.user.has_perm('webapp.change_task') and \
+        return self.request.user.has_perm('webapp.add_task') and \
             Project.objects.filter(pk=project.pk, user=self.request.user).exists()
 
     def form_valid(self, form):
@@ -71,7 +71,7 @@ class ProjectUpdateView(UserPassesTestMixin, UpdateView):
     permission_denied_message = 'У вас нет прав доступа'
 
     def test_func(self):
-        return self.request.user.has_perm('webapp.change_task')
+        return self.request.user.has_perm('webapp.change_project')
 
     def get_success_url(self):
         return reverse('project_detail', kwargs={'pk': self.object.pk})
