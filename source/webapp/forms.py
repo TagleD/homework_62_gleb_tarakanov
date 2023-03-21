@@ -106,3 +106,19 @@ class ProjectAddUserForm(forms.Form):
         queryset=User.objects.all(),
         label='Выберите пользователей'
     )
+
+
+class ProjectDeleteUserForm(forms.ModelForm):
+    def __init__(self, project_id, *args, **kwargs):
+        super().__init__( *args, **kwargs)
+        self.project = Project.objects.get(pk=project_id)
+        self.fields['user'].queryset = self.project.user.all()
+
+
+    user = forms.ModelChoiceField(
+        queryset=Project.objects.none()
+    )
+
+    class Meta:
+        model = Project
+        fields = []

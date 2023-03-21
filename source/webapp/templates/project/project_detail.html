@@ -78,8 +78,10 @@
                         <a href="{% url 'project_add_user' project.pk %}" class='btn btn-success'>Добавить</a>
                     </div>
                     <div class="col-3">
-                        <form action="#" method="post"></form>
-                        <button type="submit" class='btn btn-danger project-user-delete-btn'>Удалить</button>
+                        <form action="{% url 'project_delete_user' project.pk %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" class='btn btn-danger project-user-delete-btn'>Удалить</button>
+                        </form>
                     </div>
                 </div>
             </div>
