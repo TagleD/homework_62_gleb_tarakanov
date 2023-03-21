@@ -45,7 +45,7 @@ class MyUserCreationForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        #Проверка на совпадение паролей
+        # Проверка на совпадение паролей
         password = cleaned_data.get('password')
         password_confirm = cleaned_data.get('password_confirm')
         if password and password_confirm and password != password_confirm:
@@ -57,7 +57,7 @@ class MyUserCreationForm(forms.ModelForm):
         if not (first_name or last_name):
             raise forms.ValidationError('Вам нужно ввести хотя бы имя или фамилию!')
 
-    #Метод save() нужен для хэширования паролей
+    # Метод save() нужен для хэширования паролей
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data.get('password'))

@@ -48,4 +48,3 @@ class RegisterView(CreateView):
             return redirect(self.success_url)
         context = {'form': form}
         return self.render_to_response(context)
-

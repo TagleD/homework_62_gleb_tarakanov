@@ -3,11 +3,13 @@
 {% block title %}Подробный просмотр задачи{% endblock %}
 
 {% block add_task %}
-    <li class="nav-item">
-        <a class="nav-link active white" aria-current="page" href="{% url 'add_view' %}">Добавить
-            задачу
-        </a>
-    </li>
+    {% if perms.webapp.add_task %}
+        <li class="nav-item">
+            <a class="nav-link active white" aria-current="page" href="{% url 'add_view' %}">Добавить
+                задачу
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -38,12 +40,22 @@
         </div>
         {% if user.is_authenticated %}
             <div class="row">
-                <div class="col-1 button-margin">
-                    <a href="{% url 'task_delete' task.pk %}" class='btn btn-danger '>Удалить</a>
-                </div>
-                <div class="col-1">
-                    <a href="{% url 'task_update' task.pk %}" class='btn btn-success'>Редактировать</a>
-                </div>
+                {% if perms.webapp.delete_task %}
+                    <div class="col-1 button-margin">
+                        <a href="{% url 'task_delete' task.pk %}" class='btn btn-danger '>Удалить</a>
+                    </div>
+                {% endif %}
+                {% if perms.webapp.change_task %}
+                    {% if not perms.delete_task %}
+                        <div class="col-1 button-margin">
+                            <a href="{% url 'task_update' task.pk %}" class='btn btn-success'>Редактировать</a>
+                        </div>
+                    {% else %}
+                        <div class="col-1">
+                            <a href="{% url 'task_update' task.pk %}" class='btn btn-success'>Редактировать</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
         {% endif %}
     </div>

@@ -3,11 +3,13 @@
 {% block title %}Просмотр задач{% endblock %}
 
 {% block add_task %}
-    <li class="nav-item">
-        <a class="nav-link active white" aria-current="page" href="{% url 'add_view' %}">Добавить
-            задачу
-        </a>
-    </li>
+    {% if perms.webapp.add_task %}
+        <li class="nav-item">
+            <a class="nav-link active white" aria-current="page" href="{% url 'add_view' %}">Добавить
+                задачу
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block search %}{% include 'partial/search.html' %}{% endblock %}
@@ -43,12 +45,26 @@
                                 </p>
                             </div>
                             {% if user.is_authenticated %}
-                                <div class="col-4">
-                                    <a href="{% url 'task_delete' task.pk %}" class='btn btn-danger'>Удалить</a>
-                                </div>
-                                <div class="col-3">
-                                    <a href="{% url 'task_update' task.pk %}" class='btn btn-success edit-button'>Изменить</a>
-                                </div>
+                                {% if perms.webapp.delete_task %}
+                                    <div class="col-4">
+                                        <a href="{% url 'task_delete' task.pk %}" class='btn btn-danger'>Удалить</a>
+                                    </div>
+                                {% endif %}
+                                {% if perms.webapp.change_task %}
+                                    {% if not perms.webapp.delete_task %}
+                                        <div class="col-3">
+                                            <a style="margin-left: 2px;" href="{% url 'task_update' task.pk %}"
+                                               class='btn btn-success edit-button'>Изменить
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-3">
+                                            <a href="{% url 'task_update' task.pk %}"
+                                               class='btn btn-success edit-button'>Изменить
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>

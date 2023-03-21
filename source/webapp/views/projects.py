@@ -1,8 +1,8 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.views.generic import ListView, CreateView, UpdateView, FormView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, FormView
 from webapp.forms import ProjectForm, ProjectTaskForm, ProjectAddUserForm, ProjectDeleteUserForm
 from webapp.models import Project, Task
 
@@ -77,7 +77,6 @@ class ProjectUpdateView(UserPassesTestMixin, UpdateView):
         return reverse('project_detail', kwargs={'pk': self.object.pk})
 
 
-
 class ProjectAddUserView(UserPassesTestMixin, FormView):
     template_name = 'project/project_add_user.html'
     form_class = ProjectAddUserForm
@@ -111,7 +110,6 @@ class ProjectAddUserView(UserPassesTestMixin, FormView):
         return form_class(project_id, **self.get_form_kwargs())
 
 
-
 class ProjectDeleteUserView(UserPassesTestMixin, FormView):
     template_name = 'project/project_delete_user.html'
     form_class = ProjectDeleteUserForm
@@ -122,7 +120,6 @@ class ProjectDeleteUserView(UserPassesTestMixin, FormView):
         project = get_object_or_404(Project, pk=self.kwargs.get('pk'))
         return self.request.user.has_perm('webapp.delete_user_project') and \
             Project.objects.filter(pk=project.pk, user=self.request.user).exists()
-
 
     def get_success_url(self):
         return reverse('project_detail', kwargs={'pk': self.kwargs.get('pk')})
@@ -144,7 +141,3 @@ class ProjectDeleteUserView(UserPassesTestMixin, FormView):
             form_class = self.get_form_class()
         project_id = self.kwargs.get('pk')
         return form_class(project_id, **self.get_form_kwargs())
-
-
-
-

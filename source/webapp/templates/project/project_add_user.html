@@ -6,11 +6,13 @@
 {% endblock %}
 
 {% block project_menu %}
-    <li class="nav-item">
-        <a class="nav-link active white" aria-current="page" href="{% url 'project_create' %}">
-            Создать проект
-        </a>
-    </li>
+    {% if perms.webapp.add_project %}
+        <li class="nav-item">
+            <a class="nav-link active white" aria-current="page" href="{% url 'project_create' %}">
+                Создать проект
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

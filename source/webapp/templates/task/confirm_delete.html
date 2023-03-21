@@ -3,11 +3,13 @@
 {% block title %}Удаление с подтверждением{% endblock %}
 
 {% block add_task %}
-    <li class="nav-item">
-        <a class="nav-link active white" aria-current="page" href="{% url 'add_view' %}">Добавить
-            задачу
-        </a>
-    </li>
+    {% if perms.webapp.add_task %}
+        <li class="nav-item">
+            <a class="nav-link active white" aria-current="page" href="{% url 'add_view' %}">Добавить
+                задачу
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}

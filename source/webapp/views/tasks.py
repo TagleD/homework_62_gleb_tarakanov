@@ -69,7 +69,6 @@ class TaskAddView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
 
-
     def get_success_url(self):
         return reverse('detail_view', kwargs={'pk': self.object.pk})
 

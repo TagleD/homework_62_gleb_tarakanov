@@ -3,19 +3,23 @@
 {% block title %}Проекты{% endblock %}
 
 {% block add_task %}
-    <li class="nav-item">
-        <a class="nav-link active white" aria-current="page" href="{% url 'add_view' %}">Добавить
-            задачу
-        </a>
-    </li>
+    {% if perms.webapp.add_task %}
+        <li class="nav-item">
+            <a class="nav-link active white" aria-current="page" href="{% url 'add_view' %}">Добавить
+                задачу
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block project_menu %}
-    <li class="nav-item">
-        <a class="nav-link active white" aria-current="page" href="{% url 'project_create' %}">
-            Создать проект
-        </a>
-    </li>
+    {% if perms.webapp.add_project %}
+        <li class="nav-item">
+            <a class="nav-link active white" aria-current="page" href="{% url 'project_create' %}">
+                Создать проект
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -45,9 +49,11 @@
                             </p>
                         </div>
                         {% if user.is_authenticated %}
-                            <div class="col-3">
-                                <a href="{% url 'project_update' project.pk %}" class='btn btn-success'>Изменить</a>
-                            </div>
+                            {% if perms.webapp.change_project %}
+                                <div class="col-3">
+                                    <a href="{% url 'project_update' project.pk %}" class='btn btn-success'>Изменить</a>
+                                </div>
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
