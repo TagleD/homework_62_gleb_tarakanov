@@ -1,23 +1,5 @@
 [
 {
-  "model": "auth.user",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$390000$2Llgh5bVD9hIQX4KzWul8y$Skbxsqp5WCy5MRGDsIafx69YFSO0R54i0EY87uMnyMU=",
-    "last_login": "2023-03-16T07:32:45.895Z",
-    "is_superuser": true,
-    "username": "admin",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2023-03-01T16:42:54.729Z",
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
   "model": "webapp.status",
   "pk": 1,
   "fields": {
@@ -77,15 +59,13 @@
   "fields": {
     "title": "Сделать 3 конспекта по физике",
     "description": "Вся большая и полутемная передняя была загромождена необычными предметами и одеянием. Так, на спинку стула наброшен был траурный плащ, подбитый огненной материей",
-    "status": 1,
+    "status": 2,
     "project": 1,
     "is_deleted": false,
     "created_at": "2023-03-02T05:22:50.338Z",
-    "updated_at": "2023-03-15T16:40:20.092Z",
+    "updated_at": "2023-03-21T08:30:35.570Z",
     "type": [
-      1,
-      2,
-      3
+      2
     ]
   }
 },
@@ -442,6 +422,22 @@
   }
 },
 {
+  "model": "webapp.task",
+  "pk": 41,
+  "fields": {
+    "title": "Тестовое удаление",
+    "description": "Ывмоывм ов мров аромва мрова мрваа мрва м",
+    "status": 1,
+    "project": 1,
+    "is_deleted": true,
+    "created_at": "2023-03-21T08:32:21.867Z",
+    "updated_at": "2023-03-21T11:04:10.007Z",
+    "type": [
+      3
+    ]
+  }
+},
+{
   "model": "webapp.type",
   "pk": 1,
   "fields": {
@@ -469,7 +465,11 @@
     "name": "НИЯУ МИФИ",
     "description": "В этом проекте присутствуют задачи, которые касаются только учебных моментов",
     "started_at": "2023-03-10",
-    "ended_at": "2023-03-10"
+    "ended_at": "2023-03-10",
+    "user": [
+      5,
+      1
+    ]
   }
 },
 {
@@ -478,8 +478,12 @@
   "fields": {
     "name": "Работа",
     "description": "В этом проекте присутствуют задачи, которые касаются только рабочих моментов",
-    "started_at": "2022-12-11",
-    "ended_at": "2022-12-11"
+    "started_at": "2023-12-11",
+    "ended_at": "2022-12-11",
+    "user": [
+      2,
+      1
+    ]
   }
 }
 ]
