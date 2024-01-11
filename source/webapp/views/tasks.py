@@ -81,7 +81,7 @@ class TaskUpdateView(UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         task = get_object_or_404(Task, pk=self.kwargs.get('pk'))
-        return self.request.user.has_perm('webapp.change_task') and \
+        return self.request.user.has_perm('webapp.change_task') or \
             task.project.user.filter(pk=self.request.user.pk).exists()
 
     def get_success_url(self):
@@ -96,5 +96,5 @@ class TaskDeleteView(UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         task = get_object_or_404(Task, pk=self.kwargs.get('pk'))
-        return self.request.user.has_perm('webapp.delete_task') and \
+        return self.request.user.has_perm('webapp.delete_task') or \
             task.project.user.filter(pk=self.request.user.pk).exists()
