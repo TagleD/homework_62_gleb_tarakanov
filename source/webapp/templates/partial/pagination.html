@@ -22,8 +22,7 @@
                 {% else %}
                     <span class="page-disabled">Далее</span>
                 {% endif %}
-                <a href="?
-                        {% if query %}{{ query }}&{% endif %}page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
+                <a href="?{% if query %}{{ query }}&{% endif %}page={{ page_obj.paginator.num_pages }}">В конец &raquo;</a>
             </span>
         </div>
     </div>

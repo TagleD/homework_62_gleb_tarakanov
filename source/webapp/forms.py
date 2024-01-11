@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import BaseValidator, MinLengthValidator
 from django.forms import Textarea
-from webapp.models import Task, Project
+from webapp.models import Task, Project, Status
 
 
 class CustomLengthValidator(BaseValidator):
@@ -102,7 +102,7 @@ class SimpleSearchForm(forms.Form):
 
 class ProjectAddUserForm(forms.ModelForm):
     def __init__(self, project_id, *args, **kwargs):
-        super().__init__( *args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.project = Project.objects.get(pk=project_id)
         user_pk_list = []
         for user in self.project.user.all():
@@ -133,3 +133,9 @@ class ProjectDeleteUserForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = []
+
+
+class StatusForm(forms.ModelForm):
+    class Meta:
+        model = Status
+        fields = ('name',)

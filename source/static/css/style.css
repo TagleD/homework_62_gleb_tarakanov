@@ -22,8 +22,8 @@ body {
 }
 
 h1 {
-    margin: 20px;
-    margin-bottom: 40px;
+    margin-top: 20px;
+    margin-bottom: 9px;
 }
 
 button {
@@ -189,5 +189,9 @@ button {
 
 .button-back {
     float: right;
+}
+
+.angel {
+    color: #ffd0eb !important;
 }
 
